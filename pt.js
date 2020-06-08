@@ -3,7 +3,8 @@ console.log('pt.js loaded');
 pt={};
 
 pt.getData=async _=>{
-    pt.data = await(await fetch('https://raw.githubusercontent.com/Bowserinator/Periodic-Table-JSON/master/PeriodicTableJSON.json')).json()
+    //pt.data = await(await fetch('https://raw.githubusercontent.com/Bowserinator/Periodic-Table-JSON/master/PeriodicTableJSON.json')).json()
+    pt.data = await(await fetch('PeriodicTableJSON.json')).json()
     // index
     pt.sbl = {}
     pt.data.elements.forEach(el=>{ // index by symbol to pt.sbl
