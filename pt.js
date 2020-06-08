@@ -23,6 +23,18 @@ pt.dumpMasses= async()=>{ // by creating (dumping...) variables in the global sc
     //debugger
 } ;
 
+pt.eval=str=>{
+   str = str.replace(/(\D)(\d)/g,'$1*$2')
+   str = str.replace(/(\d)(\D)/g,'$1\+$2')
+   str = str.replace(/([a-z])([A-Z]+)/g,'$1\+$2')
+   str = str.replace(/\+\)/g,')')
+   str = str.replace(/^(\d+)(.*)/,'$1\*\($2\)')
+   str = str.replace(/\(\+/g,'(')
+   let y = eval(str)
+   console.log(str+' = '+y)
+   return y
+}
+
 (async()=>{
     await pt.dumpMasses()
 })()
