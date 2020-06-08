@@ -23,16 +23,28 @@ pt.dumpMasses= async()=>{ // by creating (dumping...) variables in the global sc
     //debugger
 } ;
 
-pt.eval=str=>{
-   str = str.replace(/(\D)(\d)/g,'$1*$2')
+pt.eval=(str,show)=>{
+   str = str.replace(/([A-Z])([a-z]*)(\d)/g,'$1$2*$3')
+   str = str.replace(/([A-Z])([A-Z])/g,'$1\+$2')
    str = str.replace(/(\d)(\D)/g,'$1\+$2')
    str = str.replace(/([a-z])([A-Z]+)/g,'$1\+$2')
    str = str.replace(/\+\)/g,')')
    str = str.replace(/^(\d+)(.*)/,'$1\*\($2\)')
    str = str.replace(/\(\+/g,'(')
-   let y = eval(str)
-   console.log(str+' = '+y)
-   return y
+   if(str.match(/[A-Z][A-Z]/g)){
+       return pt.eval(str)
+   }else{
+       str=str.replace(/[\+]+/g,'+')
+       str=str.replace(/\(\*/g,'(')
+       str=str.replace(/\(+/g,'(')
+       str=str.replace(/\)+/g,')')
+       console.log(show)
+       if(show){
+           console.log(str)
+       }
+       let y = eval(str)
+       return y
+   }
 }
 
 (async()=>{
