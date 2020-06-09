@@ -32,18 +32,18 @@ pt.eval=(str,show)=>{
    str = str.replace(/^(\d+)(.*)/,'$1\*\($2\)')
    str = str.replace(/\(\+/g,'(')
    if(str.match(/[A-Z][A-Z]/g)){
-       return pt.eval(str)
+       return pt.eval(str,show)
    }else{
        str=str.replace(/[\+]+/g,'+')
        str=str.replace(/\(\*/g,'(')
        str=str.replace(/\(+/g,'(')
        str=str.replace(/\)+/g,')')
-       console.log(show)
+       str=str.replace(/([a-z,A-Z])\(/g,'$1+(')
+       str=str.replace(/(\))(\d)/g,'$1\*$2')
        if(show){
            console.log(str)
        }
-       let y = eval(str)
-       return y
+       return eval(str)
    }
 }
 
