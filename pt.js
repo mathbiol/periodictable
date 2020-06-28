@@ -13,14 +13,18 @@ pt.getData=async _=>{
     //debugger
 }
 
-pt.dumpMasses= async()=>{ // by creating (dumping...) variables in the global scope with names of the elements
+pt.dump= (parm='atomic_mass')=>{ // by creating (dumping...) variables in the global scope with names of the elements
     if(!pt.sbl){
-        await pt.getData()
-    }
-    Object.keys(pt.sbl).forEach(k=>{
-        window[k]=pt.sbl[k].atomic_mass
-    })
-    //debugger
+        pt.getData().then(_=>{pt.dump(parm)})
+    }else{
+        // shortnames
+        parm = parm=='electronegativity'? 'electronegativity_pauling': parm
+        // ---
+        Object.keys(pt.sbl).forEach(k=>{
+            window[k]=pt.sbl[k][parm]
+        })
+        return `${parm} dumbed in global scope variables with element symbol as name`
+    }   
 } ;
 
 pt.eval=(str,show)=>{
@@ -60,7 +64,7 @@ pt.p2a=(p=1)=>(p/1.01325E5); // pascal to atmospheres at 0 oC
 pt.a2p=(a=1)=>(a*1.01325E5); // atmospheres to pascal at 0 oC
 
 (async()=>{
-    await pt.dumpMasses()
+    await pt.dump() // dump atomic mass (default parm) as global scope variables (by default)
 })();
 
 if(typeof(define)!='undefined'){
